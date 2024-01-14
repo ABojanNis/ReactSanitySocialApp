@@ -17,8 +17,8 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
   const alreadySaved = !!(save?.filter((item) => item.postedBy._id === user.sub))?.length;
 
   const savePin = (id) => {
+    console.log(alreadySaved)
     if (!alreadySaved) {
-
       client
         .patch(id)
         .setIfMissing({ save: [] })
@@ -71,7 +71,13 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
                 </a>
               </div>
               {alreadySaved ? (
-                <button type="button" className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outlined-none">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  type="button"
+                  className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outlined-none"
+                >
                   {save?.length} Saved
                 </button>
               ) : (
@@ -90,6 +96,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
             <div className="flex justify-between items-center gap-2 w-full">
               {destination && (
                 <a
+                  onClick={(e) => e.stopPropagation()}
                   href={destination}
                   target="_blank"
                   rel="noreferrer"
