@@ -15,6 +15,24 @@ const PinDetail = ({ user }) => {
   const [addingComment, setAddingComment] = useState(false);
   const { pinId } = useParams();
 
+  const fetchPinDetails = () => {
+    let query = pinDetailQuery(pinId);
+
+    if (query) {
+      client.fetch(query)
+        .then((data) => {
+          setPinDetail(data[0]);
+
+          if (data[0]) {
+            query = pinDetailMorePinQuery(data[0]);
+
+            client.fetch(query)
+              .then((res) => setPins(res));
+          }
+        })
+    }
+  }
+
   const addComment = () => {
     if (comment) {
       setAddingComment(true);
@@ -35,24 +53,6 @@ const PinDetail = ({ user }) => {
           fetchPinDetails();
           setComment('');
           setAddingComment(false);
-        })
-    }
-  }
-
-  const fetchPinDetails = () => {
-    let query = pinDetailQuery(pinId);
-
-    if (query) {
-      client.fetch(query)
-        .then((data) => {
-          setPinDetail(data[0]);
-
-          if (data[0]) {
-            query = pinDetailMorePinQuery(data[0]);
-
-            client.fetch(query)
-              .then((res) => setPins(res));
-          }
         })
     }
   }

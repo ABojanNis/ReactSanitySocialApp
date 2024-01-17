@@ -7,7 +7,6 @@ import logo from "../assets/logowhite.png";
 import { jwtDecode } from "jwt-decode";
 
 import { client } from "../client";
-import {stringify} from "uuid";
 
 const Login = () => {
   const navigate = useNavigate();
